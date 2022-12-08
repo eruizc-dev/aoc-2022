@@ -3,14 +3,6 @@
 #include <stdint.h>
 #include <string.h>
 
-uint64_t powd(uint64_t base, uint64_t exponent) {
-    uint64_t result = 1;
-    while (exponent--) {
-        result *= base;
-    }
-    return result;
-}
-
 uint64_t get_value(uint64_t bit_array) {
     uint64_t value = 0;
     for (int i = 1; bit_array; i++) {
@@ -28,7 +20,7 @@ uint64_t get_bit_array(const char *str, int len) {
         uint64_t exponent = str[i] < 'a'
             ? str[i] - 'A' + 'z' - 'a' + 1
             : str[i] - 'a';
-        array |= powd(2, exponent);
+        array |= 1L << exponent;
     }
     return array;
 }
@@ -64,6 +56,7 @@ int main(int argc, char* argv[]) {
     int elfs = 0;
     char elf_1[100], elf_2[100], elf_3[100];
     char *group[] = { elf_1, elf_2, elf_3 };
+
     while (fgets(group[elfs], 100, input)) {
         score_1 += get_elf_priority_value(group[elfs]);
         elfs++;
